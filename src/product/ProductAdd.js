@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Dialog } from '@mui/material';
 import { Input } from '@mui/material';
 import { Button } from '@mui/material';
+//firebase
+import { db } from '../firebase/GetFirestore';
 import { collection, addDoc } from "firebase/firestore";
 
 export default function ProductAdd(props) {
@@ -13,11 +15,17 @@ export default function ProductAdd(props) {
   
   const update = function(){
     props.update(product);
+    addData();
   }
   
   const [open, setopen] = useState(false);
   const handleClickopen = () => {
     setopen(open?false:true)
+  }
+  
+  async function addData(){
+    const docRef = await addDoc(collection(db,"product"),
+    { desc:product.desc, price:parseInt(product.price) });
   }
 
   return (
